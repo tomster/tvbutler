@@ -19,6 +19,7 @@ setup(name='tvbutler',
     install_requires=[
       # -*- Extra requirements: -*-
       'distribute',
+      'feedparser',
     ],
     entry_points="""
     # -*- Entry points: -*-

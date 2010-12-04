@@ -1,6 +1,8 @@
 from os import mkdir, path
 import ConfigParser
 from shutil import copy
+from feedparser import parse
+from scraper import extract_metadata
 
 CONFIG_PATH = path.expanduser('~/.tvbutler')
 
@@ -20,4 +22,8 @@ def main():
     settings = get_settings()
     feeds = settings.get('main', 'feeds').split()
     for feed_url in feeds:
-        print feed_url
+        feed = parse(feed_url)
+        for entry in feed.entries:
+            data = extract_metadata(entry.description)
+            print "%(name)s in %(quality)s" % data
+
