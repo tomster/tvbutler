@@ -25,5 +25,8 @@ def main():
         feed = parse(feed_url)
         for entry in feed.entries:
             data = extract_metadata(entry.description)
-            print "%(name)s in %(quality)s" % data
+            try:
+                data['torrent_url'] = entry.enclosures[0]['href']
+            except (IndexError, KeyError):
+                print "No torrent found for %(name)s" % data
 
