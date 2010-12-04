@@ -12,6 +12,7 @@ class TestScraper(unittest.TestCase):
         self.assertEqual(data['season'], u'2010')
         self.assertEqual(data['episode'], u'09.30')
         self.assertEqual(data['filename'], u'the.daily.show.2010.09.30.hdtv.xvid-fqm.avi')
+        self.assertEqual(data['quality'], u'sd')
 
     def test_episode_extraction_720p(self):
         data = extract_metadata(u"""Show Name:CSI; Show Title:  Pool Shark (720p .mkv); Season: 11; 
@@ -21,3 +22,4 @@ class TestScraper(unittest.TestCase):
         self.assertEqual(data['season'], u'11')
         self.assertEqual(data['episode'], u'02')
         self.assertEqual(data['filename'], u'CSI.S11E02.Pool.Shark.720p.HDTV.X264-DIMENSION.mkv')
+        self.assertEqual(data['quality'], u'720p')

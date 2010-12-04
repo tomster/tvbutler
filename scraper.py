@@ -14,4 +14,9 @@ def extract_metadata(description):
         except ValueError:
             continue
         data[mapper[key.strip().lower()]] = value.strip()
+
+    if '720p' in data['title'] + data['filename']:
+        data['quality'] = u'720p'
+    else:
+        data['quality'] = u'sd'
     return data
