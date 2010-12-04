@@ -10,10 +10,10 @@ The configuration lives in `~/.tvbutler/config`::
   # one of SD, 720p, 1080p
   preferred_quality=720p
   
-  [feeds]
-  # one per line
-  http://www.tvtorrents.com/mytaggedRSS?XXXX=YYYYY
-  http://www.ezrss.it/search/index.php&mode=rss
+  # one per line, indented
+  feeds =
+      http://www.tvtorrents.com/mytaggedRSS?XXXX=YYYYY
+      http://www.ezrss.it/search/index.php&mode=rss
 
 
 Usage
