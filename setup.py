@@ -15,7 +15,7 @@ setup(name='tvbutler',
         "Programming Language :: Python :: 2.5",
         "Programming Language :: Python :: 2.6",
         "Topic :: Multimedia :: Video",
-        "Topic :: Communications :: File Sharing,"
+        "Topic :: Communications :: File Sharing",
     ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords='rss bittorrent tv',
     author='Tom Lazar',
