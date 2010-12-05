@@ -1,5 +1,4 @@
-from setuptools import setup, find_packages
-
+from setuptools import setup
 version = '0.1a'
 
 setup(name='tvbutler',
@@ -22,7 +21,7 @@ setup(name='tvbutler',
     author_email='tom@tomster.org',
     url='https://github.com/tomster/tvbutler',
     license='BSD',
-    packages=find_packages(exclude=['ez_setup', 'tests']),
+    packages=['tvbutler'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
