@@ -1,2 +1,4 @@
-2010-11-28 - Unreleased
-=======================
+0.1 - Unreleased
+================
+
+Initial release.
