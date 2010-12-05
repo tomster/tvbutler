@@ -1,13 +1,25 @@
 from feedparser import parse
+from optparse import OptionParser
+
 from scraper import extract_metadata
 from settings import get_settings
 from persistence import TVShow, Session
 
 
+parser = OptionParser()
+parser.add_option("-f", "--file", dest="filename",
+    help="Read RSS from this file instead of the feeds specified"
+    "in the config file.")
+
+
 def main():
     settings = get_settings()
     session = Session()
-    feeds = settings.get('main', 'feeds').split()
+    (options, args) = parser.parse_args()
+    if options.filename is not None:
+        feeds = [options.filename]
+    else:
+        feeds = settings.get('main', 'feeds').split()
     for feed_url in feeds:
         feed = parse(feed_url)
         for entry in feed.entries:
