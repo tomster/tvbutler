@@ -20,6 +20,7 @@ setup(name='tvbutler',
       # -*- Extra requirements: -*-
       'distribute',
       'feedparser',
+      'sqlalchemy',
     ],
     entry_points="""
     # -*- Entry points: -*-
