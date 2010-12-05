@@ -33,6 +33,6 @@ setup(name='tvbutler',
     entry_points="""
     # -*- Entry points: -*-
     [console_scripts]
-    tvbutler=command:main
+    tvbutler=tvbutler.command:main
     """,
     )
