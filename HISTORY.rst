@@ -1,4 +1,4 @@
-0.1 - Unreleased
-================
+0.1a2 - 2010-12-05
+==================
 
-Initial release.
+Initial release (0.1a was nuked due to packaging foobar)
