@@ -1,5 +1,6 @@
 from feedparser import parse
 from optparse import OptionParser
+from os import path
 
 from scraper import extract_metadata
 from settings import get_settings
@@ -20,8 +21,10 @@ def main():
         feeds = [options.filename]
     else:
         feeds = settings.get('main', 'feeds').split()
+    preferred_quality = settings.get('main', 'preferred_quality')
     for feed_url in feeds:
         feed = parse(feed_url)
+        print "Checking %s" % feed['feed']['subtitle']
         for entry in feed.entries:
             data = extract_metadata(entry.description)
             try:
@@ -29,12 +32,25 @@ def main():
             except (IndexError, KeyError):
                 print "No torrent found for %(name)s" % data
             show = TVShow(**data)
-            if session.query(TVShow).filter(TVShow.name==show.name).\
+            existing_qualities = session.query(TVShow).filter(TVShow.name==show.name).\
                 filter(TVShow.season==show.season).\
-                filter(TVShow.episode==show.episode).\
-                filter(TVShow.quality==show.quality).count() > 0:
+                filter(TVShow.episode==show.episode)
+            preferred_qualities = existing_qualities.\
+                filter(TVShow.quality==preferred_quality)
+
+            # nothing yet? then add unconditionally
+            if existing_qualities.count()==0:
+                session.add(show)
+                print "Added %(name)s %(title)s in %(quality)s" % show.__dict__
+            # already in preferred quality?
+            elif preferred_qualities.count() > 0:
                 continue
-            session.add(show)
-            print "Added %(name)s in %(quality)s" % show.__dict__ 
+            # update existing quality with this one:
+            else:
+                existing_quality = existing_qualities.one()
+                if show.quality != existing_quality.quality:
+                    session.delete(existing_quality)
+                    session.add(show)
+                    print "Updated %(name)s %(title)s to %(quality)s" % show.__dict__
     
     session.commit()

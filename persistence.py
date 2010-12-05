@@ -24,11 +24,11 @@ class TVShow(Base):
     title = Column(String)
     filename = Column(String)
     torrent_url = Column(String)
-    status = Column(types.Enum(u'new', u'file_downloaded',
+    status = Column(types.Enum(u'new', u'torrent_downloaded', u'file_downloaded',
         u'archived', convert_unicode=True, native_enum=False), nullable=False,
         default=u'new')
 
     def __repr__(self):
-        return "<TVShow('%s S%sE%s')>" % (self.name, self.season, self.episode)
+        return "<TVShow('%(name)s S%(season)sE%(episode)s' in %(quality)s)>" % self.__dict__
 
 metadata.create_all(engine)
