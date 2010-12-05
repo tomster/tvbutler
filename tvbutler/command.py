@@ -54,8 +54,6 @@ def main():
                     session.add(show)
                     print "Updated %(name)s %(title)s to %(quality)s" % show.__dict__
     
-    session.commit()
-
     torrent_download_dir = path.expanduser(settings.get('main', 'torrent_download_dir'))
     print "downloading torrents to %s" % torrent_download_dir
     for show in session.query(TVShow).filter(TVShow.status==u'new'):
@@ -66,3 +64,5 @@ def main():
             print "Downloading torrent for %(name)s %(title)s in %(quality)s" % show.__dict__
         else:
             print "ERROR: Couldn't download %s" % show.torrent_url
+
+    session.commit()
