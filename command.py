@@ -1,6 +1,7 @@
 from feedparser import parse
 from optparse import OptionParser
 from os import path
+from urllib import urlretrieve
 
 from scraper import extract_metadata
 from settings import get_settings
@@ -54,3 +55,14 @@ def main():
                     print "Updated %(name)s %(title)s to %(quality)s" % show.__dict__
     
     session.commit()
+
+    torrent_download_dir = path.expanduser(settings.get('main', 'torrent_download_dir'))
+    print "downloading torrents to %s" % torrent_download_dir
+    for show in session.query(TVShow).filter(TVShow.status==u'new'):
+        torrent_path, result = urlretrieve(show.torrent_url, path.join(torrent_download_dir,
+            "%s.torrent" % show.filename))
+        if result.type == 'application/x-bittorrent':
+            show.status = u'torrent_downloaded'
+            print "Downloading torrent for %(name)s %(title)s in %(quality)s" % show.__dict__
+        else:
+            print "ERROR: Couldn't download %s" % show.torrent_url
