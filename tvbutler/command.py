@@ -14,6 +14,7 @@ parser.add_option("-f", "--file", dest="filename",
 
 
 def main():
+    log.info("------------------------------------------------------------")
     session = Session()
     (options, args) = parser.parse_args()
     if options.filename is not None:
@@ -21,7 +22,6 @@ def main():
     else:
         feeds = settings.get('main', 'feeds').split()
     preferred_quality = settings.get('main', 'preferred_quality')
-    log.info("Begin of run.")
     for feed_url in feeds:
         feed = parse(feed_url)
         log.info("Checking %s" % feed['feed']['subtitle'])
@@ -41,7 +41,7 @@ def main():
             # nothing yet? then add unconditionally
             if existing_qualities.count()==0:
                 session.add(show)
-                log.info("Added %(name)s %(title)s in %(quality)s" % show.__dict__)
+                log.info("ADDED %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
             # already in preferred quality?
             elif preferred_qualities.count() > 0:
                 continue
@@ -51,7 +51,7 @@ def main():
                 if show.quality != existing_quality.quality:
                     session.delete(existing_quality)
                     session.add(show)
-                    log.info("Updated %(name)s %(title)s to %(quality)s" % show.__dict__)
+                    log.info("UPDATED %(name)s %(season)s %(episode)s to %(quality)s" % show.__dict__)
     
     torrent_download_dir = path.expanduser(settings.get('main', 'torrent_download_dir'))
     log.info("downloading torrents to %s" % torrent_download_dir)
@@ -60,9 +60,8 @@ def main():
             "%s.torrent" % show.filename))
         if result.type == 'application/x-bittorrent':
             show.status = u'torrent_downloaded'
-            log.info("Downloading torrent for %(name)s %(title)s in %(quality)s" % show.__dict__)
+            log.info("DOWNLOAD %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
         else:
             log.error("Couldn't download %s" % show.torrent_url)
 
     session.commit()
-    log.info("End of run.")
