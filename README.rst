@@ -11,7 +11,7 @@ Alternatively, download the archive, expand it and run::
 
   python setup.py install
 
-This will install a command line executable of the same name. It's designed to work as a `crontab` or `launchd` entry: called without any parameters it will download all given feeds, try to identify shows and then figure out which episodes are available in which quality.
+This will install a command line executable ``tvbutler``. It's designed to work as a ``crontab`` or ``launchd`` entry: called without any parameters it will download all given feeds, try to identify shows and then figure out which episodes are available in which quality.
 
 It then downloads the torrent files into the given target directory (which typically will be 'watched' by a torrent client).
 
@@ -34,4 +34,10 @@ The configuration lives in `~/.tvbutler/config`, the installer places a sample c
 
 Since tvbutler is aimed at downloading new episodes of currently running shows as they are released, it excludes by default all torrents it recognizes as archives of entire seasons. It does so by excluding all torrents whose description matches a regular expression, which is configurable via the config file::
 
-  global_exclude_regex=(all month|season[\s\d]*complete)
+  global_exclude_regex=(all.month|month.of|season[\s\d]*complete)
+
+TODO
+====
+
+ * archive or delete files older than `n` days (perhaps base decision on tag)
+ * remove torrents from transmission that have reached their seeding limit
