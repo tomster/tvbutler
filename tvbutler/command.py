@@ -2,13 +2,15 @@ import re
 from feedparser import parse
 from optparse import OptionParser
 from os import path
+from pkg_resources import get_distribution
 from urllib import urlretrieve
 
 from scraper import extract_metadata
 from settings import settings, log
 from persistence import TVShow, Session
 
-parser = OptionParser()
+parser = OptionParser(
+    version="tvbutler %s" % get_distribution("tvbutler").version)
 parser.add_option("-f", "--file", dest="filename",
     help="Read RSS from this file instead of the feeds specified"
     "in the config file.")
