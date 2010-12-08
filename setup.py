@@ -1,5 +1,5 @@
 from setuptools import setup
-version = '0.1a4'
+version = '0.1a5dev'
 
 setup(name='tvbutler',
     version=version,
