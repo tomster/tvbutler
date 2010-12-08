@@ -1,3 +1,12 @@
+0.1a4 - 2010-12-08
+==================
+
+* added global regular expression filter (defaults to skip archives of
+  seasons)
+
+  `UPGRADE NOTE`: add ``global_exclude_regex=(all.month|month.of|season[\s\d]*complete)``
+  to the ``[main]`` section your existing config to activate this feature.
+
 0.1a3 - 2010-12-05
 ==================
 

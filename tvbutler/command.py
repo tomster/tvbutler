@@ -1,3 +1,4 @@
+import re
 from feedparser import parse
 from optparse import OptionParser
 from os import path
@@ -22,10 +23,19 @@ def main():
     else:
         feeds = settings.get('main', 'feeds').split()
     preferred_quality = settings.get('main', 'preferred_quality')
+    if settings.has_option('main', 'global_exclude_regex'):
+        exclude_regex = re.compile(settings.get('main', 'global_exclude_regex'))
+    else:
+        exclude_regex = None
+
     for feed_url in feeds:
         feed = parse(feed_url)
         log.info("Checking %s" % feed['feed']['subtitle'])
         for entry in feed.entries:
+            if (exclude_regex is not None and
+                exclude_regex.search(entry.description.lower()) is not None):
+                log.info("SKIP %s" % entry.description)
+                continue
             data = extract_metadata(entry.description)
             try:
                 data['torrent_url'] = entry.enclosures[0]['href']

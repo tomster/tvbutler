@@ -32,3 +32,6 @@ The configuration lives in `~/.tvbutler/config`, the installer places a sample c
       http://www.tvtorrents.com/mytaggedRSS?digest=xxxxx
       http://www.tvtorrents.com/mydownloadRSS?digest=xxxx
 
+Since tvbutler is aimed at downloading new episodes of currently running shows as they are released, it excludes by default all torrents it recognizes as archives of entire seasons. It does so by excluding all torrents whose description matches a regular expression, which is configurable via the config file::
+
+  global_exclude_regex=(all month|season[\s\d]*complete)
