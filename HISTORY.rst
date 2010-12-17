@@ -1,4 +1,4 @@
-0.1a5 - Unreleased
+0.1a5 - 2010-12-17
 ==================
 
 * log to stdout, too to get instant feedback when calling tvbutler from console
