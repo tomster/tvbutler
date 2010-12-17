@@ -18,9 +18,10 @@ if not path.exists(CONFIG_PATH):
 settings = ConfigParser.ConfigParser()
 settings.read(settings_path)
 
-handler = logging.FileHandler(path.join(CONFIG_PATH, 'log'))
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-handler.setFormatter(formatter)
-log.addHandler(handler)
+logfile = logging.FileHandler(path.join(CONFIG_PATH, 'log'))
+logfile.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+log.addHandler(logfile)
+console = logging.StreamHandler()
+console.setFormatter(logfile.setFormatter(logging.Formatter('%(message)s')))
+log.addHandler(console)
 log.setLevel(logging.INFO)
-

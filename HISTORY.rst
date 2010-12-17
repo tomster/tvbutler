@@ -1,6 +1,7 @@
 0.1a5 - Unreleased
 ==================
 
+* log to stdout, too to get instant feedback when calling tvbutler from console
 
 0.1a4 - 2010-12-08
 ==================
