@@ -2,6 +2,7 @@
 ==================
 
 * robustness fix (tvbutler would barf on some entries and stop processing the remaining entries)
+* log to stdout, too to get instant feedback when calling tvbutler from console
 
 0.1a4 - 2010-12-08
 ==================
