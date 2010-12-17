@@ -1,6 +1,7 @@
 0.1a5 - Unreleased
 ==================
 
+* robustness fix (tvbutler would barf on some entries and stop processing the remaining entries)
 
 0.1a4 - 2010-12-08
 ==================
