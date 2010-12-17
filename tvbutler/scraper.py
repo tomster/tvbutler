@@ -15,7 +15,7 @@ def extract_metadata(description):
             continue
         data[mapper[key.strip().lower()]] = value.strip()
 
-    if '720p' in data['title'] + data['filename']:
+    if '720p' in data.get('title', '') + data.get('filename', ''):
         data['quality'] = u'720p'
     else:
         data['quality'] = u'sd'
