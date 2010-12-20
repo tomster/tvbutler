@@ -7,14 +7,16 @@ from pkg_resources import get_distribution
 from urllib import urlretrieve
 
 from scraper import extract_metadata
-from persistence import TVShow, Session
 from settings import settings_get, log
+from persistence import TVShow, Session, migrations
 
 parser = OptionParser(
     version="tvbutler %s" % get_distribution("tvbutler").version)
 parser.add_option("-f", "--file", dest="filename",
     help="Read RSS from this file instead of the feeds specified"
     "in the config file.")
+parser.add_option("-m", "--migrate", dest="migration_step",
+    help="Migrate the database to the given target version")
 
 
 def main():
@@ -25,6 +27,10 @@ def main():
         feeds = [options.filename]
     else:
         feeds = settings_get('feeds').split()
+    if options.migration_step is not None:
+        migration_step = int(options.migration_step)
+        log.info('Migrating show database to %d' % migration_step)
+        migrations[migration_step]()
     preferred_quality = settings_get('preferred_quality')
     global_exclude_regex = settings_get('global_exclude_regex')
     if global_exclude_regex is not None:

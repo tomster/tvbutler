@@ -33,3 +33,10 @@ class TVShow(Base):
         return "<TVShow('%(name)s S%(season)sE%(episode)s' in %(quality)s)>" % self.__dict__
 
 metadata.create_all(engine)
+
+def migrate_001():
+    session = Session()
+    session.execute("ALTER TABLE shows ADD COLUMN transmission_hash STRING DEFAULT '';")
+    session.commit()
+
+migrations = [migrate_001]

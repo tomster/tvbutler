@@ -5,6 +5,9 @@
 * Talk directly to Transmission torrent client instead of just downloading the
   torrents to a watched directory. This allows us to keep track of torrents
   and their status for automatic removal and archival.
+  
+  `UPGRADE NOTE`: if you have been using a previous version of tvbutler, call
+  it once with ``tvbutler --migrate=0`` to udpate your existing database
 
 0.1a5 - 2010-12-17
 ==================
