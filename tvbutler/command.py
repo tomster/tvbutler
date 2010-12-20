@@ -1,4 +1,5 @@
 import re
+import transmissionrpc
 from feedparser import parse
 from optparse import OptionParser
 from os import path
@@ -6,8 +7,8 @@ from pkg_resources import get_distribution
 from urllib import urlretrieve
 
 from scraper import extract_metadata
-from settings import settings, log
 from persistence import TVShow, Session
+from settings import settings_get, log
 
 parser = OptionParser(
     version="tvbutler %s" % get_distribution("tvbutler").version)
@@ -23,10 +24,11 @@ def main():
     if options.filename is not None:
         feeds = [options.filename]
     else:
-        feeds = settings.get('main', 'feeds').split()
-    preferred_quality = settings.get('main', 'preferred_quality')
-    if settings.has_option('main', 'global_exclude_regex'):
-        exclude_regex = re.compile(settings.get('main', 'global_exclude_regex'))
+        feeds = settings_get('feeds').split()
+    preferred_quality = settings_get('preferred_quality')
+    global_exclude_regex = settings_get('global_exclude_regex')
+    if global_exclude_regex is not None:
+        exclude_regex = re.compile(global_exclude_regex)
     else:
         exclude_regex = None
 
@@ -53,7 +55,7 @@ def main():
             # nothing yet? then add unconditionally
             if existing_qualities.count()==0:
                 session.add(show)
-                log.info("ADDED %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
+                log.info("FOUND %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
             # already in preferred quality?
             elif preferred_qualities.count() > 0:
                 continue
@@ -65,15 +67,31 @@ def main():
                     session.add(show)
                     log.info("UPDATED %(name)s %(season)s %(episode)s to %(quality)s" % show.__dict__)
     
-    torrent_download_dir = path.expanduser(settings.get('main', 'torrent_download_dir'))
-    log.info("downloading torrents to %s" % torrent_download_dir)
+    transmission_host = settings_get('transmission_host', None)
+    if transmission_host is not None:
+        transmission_port = settings_get('transmission_port', 9091)
+        transmission = transmissionrpc.Client(transmission_host,
+            port=transmission_port)
+        log.info("connected to transmission at %s:%s" % (transmission_host, transmission_port))
+    else:
+        torrent_download_dir = path.expanduser(settings_get('torrent_download_dir', None))
+        log.info("downloading torrents to %s" % torrent_download_dir)
     for show in session.query(TVShow).filter(TVShow.status==u'new'):
-        torrent_path, result = urlretrieve(show.torrent_url, path.join(torrent_download_dir,
-            "%s.torrent" % show.filename))
-        if result.type == 'application/x-bittorrent':
-            show.status = u'torrent_downloaded'
-            log.info("DOWNLOAD %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
+        if transmission_host is None:
+            torrent_path, result = urlretrieve(show.torrent_url, path.join(torrent_download_dir,
+                "%s.torrent" % show.filename))
+            if result.type == 'application/x-bittorrent':
+                show.status = u'torrent_downloaded'
+                log.info("DOWNLOAD %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
+            else:
+                log.error("Couldn't download %s" % show.torrent_url)
         else:
-            log.error("Couldn't download %s" % show.torrent_url)
+            try:
+                torrent = transmission.add_uri(show.torrent_url).values()[0]
+                show.transmission_hash = torrent.fields['hashString']
+                show.status = u'torrent_downloaded'
+                log.info("ADDED %(name)s %(season)s %(episode)s in %(quality)s" % show.__dict__)
+            except transmissionrpc.error.TransmissionError:
+                pass
 
     session.commit()

@@ -29,6 +29,7 @@ setup(name='tvbutler',
       'distribute',
       'feedparser',
       'sqlalchemy',
+      'transmissionrpc',
     ],
     entry_points="""
     # -*- Entry points: -*-

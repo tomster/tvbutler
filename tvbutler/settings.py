@@ -25,3 +25,9 @@ console = logging.StreamHandler()
 console.setFormatter(logfile.setFormatter(logging.Formatter('%(message)s')))
 log.addHandler(console)
 log.setLevel(logging.INFO)
+
+def settings_get(name, default=None, section='main'):
+    if settings.has_option(section, name):
+        return settings.get(section, name)
+    else:
+        return default

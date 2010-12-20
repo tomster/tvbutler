@@ -24,6 +24,7 @@ class TVShow(Base):
     title = Column(String)
     filename = Column(String)
     torrent_url = Column(String)
+    transmission_hash = Column(String, nullable=True, default=u'')
     status = Column(types.Enum(u'new', u'torrent_downloaded', u'file_downloaded',
         u'archived', convert_unicode=True, native_enum=False), nullable=False,
         default=u'new')

@@ -2,6 +2,10 @@
 
 * Documentation cleanup (thanks to `claytron <https://github.com/claytron>`_)
 
+* Talk directly to Transmission torrent client instead of just downloading the
+  torrents to a watched directory. This allows us to keep track of torrents
+  and their status for automatic removal and archival.
+
 0.1a5 - 2010-12-17
 ==================
 
