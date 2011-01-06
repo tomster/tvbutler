@@ -15,7 +15,7 @@ Configuration
 The configuration lives in `~/.tvbutler/config`, the installer places a sample configuration and should be pretty self-explanatory::
 
   [main]
-  download_dir=~/Downloads/
+  torrent_download_dir=~/Downloads/
   # one of sd, 720p, 1080p
   preferred_quality=720p
   
