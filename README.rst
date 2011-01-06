@@ -12,7 +12,7 @@ tvbutler keeps a log of its activities in `~/.tvbutler/log` and a (sqlite) datab
 Configuration
 =============
 
-The configuration lives in `~/.tvbutler/config`, the installer places a sample configuration and should be pretty self-explanatory::
+The configuration lives in `~/.tvbutler/config`. If it doesn't exist, tvbutler will create a sample configuration *when it's run for the first time*. It has some comments and should thus be pretty self-explanatory::
 
   [main]
   torrent_download_dir=~/Downloads/
