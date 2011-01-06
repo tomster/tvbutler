@@ -1,4 +1,8 @@
-0.1a5 - Unreleased
+0.1.b1 - Unreleased
+
+* Documentation cleanup (thanks to `claytron <https://github.com/claytron>`_)
+
+0.1a5 - 2010-12-17
 ==================
 
 * robustness fix (tvbutler would barf on some entries and stop processing the remaining entries)
