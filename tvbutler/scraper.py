@@ -10,7 +10,7 @@ def extract_metadata(description):
     data = dict()
     for item in description.split(';'):
         try:
-            key, value = item.split(':')
+            key, value = item.split(':', 1)
         except ValueError:
             continue
         data[mapper[key.strip().lower()]] = value.strip()
