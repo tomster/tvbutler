@@ -1,6 +1,7 @@
 0.1.b1 - Unreleased
 
 * Documentation cleanup (thanks to `claytron <https://github.com/claytron>`_)
+* Fix for shows with ':' in their name (thanks to `plambert <https://github.com/plambert>`_), fixes https://github.com/tomster/tvbutler/pull/5
 
 0.1a5 - 2010-12-17
 ==================
