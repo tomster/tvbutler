@@ -1,5 +1,5 @@
 import unittest
-from scraper import extract_metadata
+from tvbutler.scraper import extract_metadata
 
 class TestScraper(unittest.TestCase):
 
